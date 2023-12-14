@@ -11,10 +11,13 @@ class SearchRequestSerializer(serializers.Serializer):
         return SearchRequest(**validated_data)
 
 
-class SearchResultsSerializer(serializers.Serializer):
+class SearchResultsSerializer(serializers.ListSerializer):
     name = serializers.CharField()
     description = serializers.CharField()
 
     def create(self, validated_data):
-        return SearchResult(**validated_data)
+        models = []
+        for model in validated_data:
+            models.append(SearchResult(model))
+        return models
 
